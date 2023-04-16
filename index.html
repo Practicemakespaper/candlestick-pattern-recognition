@@ -1,0 +1,69 @@
+<html lang="en">
+<head>
+     <style>
+         body { font-family: Helvetica; margin: 30px; }
+         td { padding: 10px; }
+          .Bullish { background: rgb(6, 216, 6); color: white; }
+          .Bearish { background: red; color:white; } 
+         input {  padding: 15px 32px; text-align: center; display: inline-block; font-size: 20px; margin: 4px 2px; cursor: pointer; }
+         .footer {
+            background-color: rgb(3, 38, 238);
+            padding: 10px;
+            text-align: center;
+         }
+     </style>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+</head>
+<body>
+   <h2>Charts</h2>
+   <input type="button" onClick="parent.location='snapshot'" value='Update'>
+   <h1>Candlestick Pattern Recognition</h1>
+
+   <form>
+            <select name="pattern">
+               {% for pattern in patterns %}
+                  <option value="{{ pattern }}" {% if pattern == current_pattern %}selected="selected"{% endif %}>{{ patterns[pattern] }}</option>
+               {% endfor %}
+
+            </select> 
+         
+            <input type="submit" value="scan">
+   </form>
+
+   <table>
+      <tr>
+         <th>
+            Symbol
+         </th>
+
+         <th>
+            Company name
+         </th>
+         <th>
+            Signal
+         </th>
+
+         </tr>
+
+   {% for stock in stocks %}
+      {% if stocks[stock][current_pattern] %}
+      <tr>
+         <td> {{ stock }}</td>
+         <td>{{ stocks[stock]['company'] }}</td>
+         <td class="{{ stocks[stock][current_pattern] }}">{{ stocks[stock][current_pattern] }}</td>
+      </tr>
+      <tr>
+         <td colspan="3">
+            <img  src="https://finviz.com/chart.ashx?t={{ stock }}&ty=c&ta=1&p=d&s=l" /> 
+         </td>
+      </tr>
+        
+
+         
+      {% endif %}
+   {% endfor %}
+  
+   </table>
+</body>
+
+</html>
